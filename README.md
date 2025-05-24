@@ -36,6 +36,15 @@ python -m spacy download ru_core_news_sm
 python -m spacy download en_core_web_sm
 python -m nltk.downloader punkt stopwords
 ```
+## Configuration Files
+
+The system uses two JSON configuration files for data normalization:
+
+- **`normalize_by_sentences.json`** – Contains column names to be normalized by sentence count.
+- **`normalize_by_words.json`** – Contains column names to be normalized by word count.
+
+Place these files in the same directory as the `data_handler` module.  
+The `normalize_data()` method automatically uses these configurations.
 
 ## Usage
 
