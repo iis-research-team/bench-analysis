@@ -14,17 +14,7 @@ download('stopwords')
 
 nlp_ru = spacy.load("ru_core_news_sm")
 nlp_en = spacy.load("en_core_web_sm")
-#nlp_ru.add_pipe("spacytextblob")
-#nlp_en.add_pipe("spacytextblob")
 
-
-
-from collections import Counter
-from typing import List, Dict, Any, Optional, Union
-import numpy as np
-import pprint
-import textstat
-from ruts import BasicStats, ReadabilityStats
 
 class TextAnalyzer:
     """Analyzes text for various linguistic and statistical properties.
@@ -43,7 +33,7 @@ class TextAnalyzer:
 
         Args:
             text: The text to analyze
-            max_length: Maximum length for text chunks during processing (default: 100000)
+            max_length: Maximum length for text chunks during processing (default: 100000 chars)
 
         Note:
             Automatically detects language and configures appropriate NLP pipeline.
@@ -85,7 +75,6 @@ class TextAnalyzer:
         if len(self.text) <= self.max_length:
             return [self.text]
 
-        original_max_length = None 
         sentences = []
 
         try:
@@ -298,7 +287,9 @@ class TextAnalyzer:
 
             for sent in doc.sents:
                 if len(sent) > 1:  
+                    # Calculate the linear distance between each token and its head (dependency parent)
                     depths = [abs(token.i - token.head.i) for token in sent]
+                    # Record the max depth (longest dependency arc) in the sentence
                     tree_depths.append(max(depths) if depths else 0)
 
         avg_depth = np.mean(tree_depths) if tree_depths else 0
@@ -307,33 +298,6 @@ class TextAnalyzer:
             "avg_tree_depth": float(avg_depth)
         }
 
-    def sentiment_analysis(self) -> Dict[str, float]:
-        """Calculate sentiment polarity and subjectivity.
-
-        Returns:
-            Dict[str, float]: Sentiment metrics:
-                - polarity: Sentiment polarity (-1 to 1)
-                - subjectivity: Subjectivity score (0 to 1)
-        """
-        # polarities = []
-        # subjectivities = []
-
-        # for part in self.parts:
-        #     doc = self._get_doc(part)
-        #     if hasattr(doc._, "blob"):
-        #         polarities.append(doc._.blob.polarity)
-        #         subjectivities.append(doc._.blob.subjectivity)
-
-        # return {
-        #     "polarity": np.mean(polarities) if polarities else 0.0,
-        #     "subjectivity": np.mean(subjectivities) if subjectivities else 0.0
-        # }
-        
-        # Return neutral values since analysis is disabled
-        return {
-            "polarity": 0.0,
-            "subjectivity": 0.0
-        }
     
     def text_homogeneity(self) -> Optional[Dict[str, float]]:
         """Measure text homogeneity using sentence similarity.
@@ -375,7 +339,6 @@ class TextAnalyzer:
             "readability_statistics": self.readability_statistics(),
             "pos_ner_analysis": self.pos_ner_analysis(),
             "syntactic_analysis": self.syntactic_analysis(),
-            "sentiment_analysis": self.sentiment_analysis(),
             "text_homogeneity": self.text_homogeneity(),
         }
 
