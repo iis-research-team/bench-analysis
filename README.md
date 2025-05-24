@@ -46,6 +46,18 @@ The system uses two JSON configuration files for data normalization:
 Place these files in the same directory as the `data_handler` module.  
 The `normalize_data()` method automatically uses these configurations.
 
+## Reference Data
+
+`master_data.csv` is the baseline dataset used for statistical comparison. It should include:
+
+- A grouping column (e.g., `"Genre"` or `"Creation"`)
+- The same feature columns used for analysis
+
+It’s passed to `StatisticalAnalyzer` as `master_df` to:
+
+- Compare user data to reference groups
+- Identify key differences and generate similarity scores
+  
 ## Usage
 
 ### 1. Data Preprocessing
