@@ -80,7 +80,6 @@ normalized_data = handler.normalize_data()
 
 ```python
 from statistical_analyzer import StatisticalAnalyzer
-import pandas as pd
 
 master_df = pd.read_csv("master_data.csv")
 user_df = pd.read_csv("user_data.csv")
