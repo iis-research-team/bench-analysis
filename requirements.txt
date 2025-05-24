@@ -1,0 +1,10 @@
+numpy>=1.26.4
+pandas>=1.5.3
+textstat>=0.7.7
+ruts>=0.8.1
+textdistance>=4.6.3
+langdetect>=1.0.9
+nltk>=3.9.1
+spacy>=3.8.5
+scipy>=1.15.3
+scikit-learn>=1.6.1
